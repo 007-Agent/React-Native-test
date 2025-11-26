@@ -8,6 +8,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "./component/HomeScreen";
 import InfoScreen from "./component/InfoScreen";
 import Search from "./component/Search";
+import DoubleInfo from "./component/DoubleInfo";
 import NewScreen from "./component/NewScreen";
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -104,7 +105,7 @@ export default function App() {
           name="NewScreen"
           component={NewScreen}
           options={({ navigation }) => ({
-            title: "Назад", // Изменение названия (замени на нужное, например "Главная страница")
+            title: "Главная", // Изменение названия (замени на нужное, например "Главная страница")
             headerTitleStyle: {
               color: "blue", // Цвет текста заголовка
               fontSize: 20, // Размер шрифта
@@ -126,6 +127,14 @@ export default function App() {
               </TouchableOpacity>
             ),
           })}
+        />
+
+        <Stack.Screen
+          name="DoubleInfo"
+          component={DoubleInfo}
+          options={{
+            headerShown: false, // скрываем заголовок
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
