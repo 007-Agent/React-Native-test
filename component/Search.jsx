@@ -12,7 +12,7 @@ function Search() {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const handleAllUsers = async () => {
     try {
-      const response = await axios.get("http://10.16.1.239:3000/all-users");
+      const response = await axios.get("http://10.16.1.250:3000/all-users");
       console.log(response.data);
       if (response) {
         setUsers(response.data);
@@ -37,7 +37,14 @@ function Search() {
   );
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center", paddingTop: 100 }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        paddingTop: 100,
+      }}
+    >
       <Text>Третья кнопка. Рассмотрим пример кода!!!</Text>
       {/* Добавьте сюда свою информацию, например, текст, списки или другие компоненты */}
       <TouchableOpacity onPress={handleAllUsers}>
