@@ -50,14 +50,15 @@ function Search() {
       <TouchableOpacity onPress={handleAllUsers}>
         <Text>Спиоск пользователей</Text>
       </TouchableOpacity>
-      <View>
-        <FlatList
-          data={users}
-          renderItem={renderItem}
-          style={styles.list}
-          keyExtractor={(item, index) => index.toString()}
-        />
-      </View>
+
+      <FlatList
+        data={users}
+        renderItem={renderItem}
+        // style={styles.list}
+        style={{ flex: 1, height: 200 }}
+        keyExtractor={(item, index) => index.toString()}
+        scrollEnabled={true}
+      />
     </View>
   );
 }
@@ -65,11 +66,12 @@ function Search() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 100,
+    paddingHorizontal: 20,
   },
   list: {
-    display: "flex",
-    flexDirection: "column",
     paddingTop: 100,
   },
   item: {

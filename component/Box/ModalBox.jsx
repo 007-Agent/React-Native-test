@@ -9,6 +9,7 @@ import {
   // Animated,  // Убрали, если не нужен
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
+import axios from "axios";
 
 export default function ModalBox({ visible, onClose }) {
   const {
@@ -18,11 +19,29 @@ export default function ModalBox({ visible, onClose }) {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
     const orderedData = [data.name, data.family, data.email, data.phone];
     console.log(orderedData);
-    onClose();
+    const obj = { ...orderedData };
+    console.log(obj);
+    try {
+      const response = await axios.post(
+        "http://10.16.1.250:3000/add-users",
+        orderedData
+      );
+      console.log(response.data);
+    alert("Пользователь добавлен успешно!");
+    } catch (error) {
+      console.error("Ошибка при отправке:", error);
+
+      if (error.response) {
+        // Сервер вернул ошибку (например, 400 или 500)
+        alert(`Ошибка: ${error.response.data.error}`);
+      } else {
+        alert("Ошибка сети или сервера");
+      }
+    }
   };
 
   const handleClose = () => {
