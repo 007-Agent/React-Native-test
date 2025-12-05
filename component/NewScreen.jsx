@@ -14,7 +14,10 @@ export default function NewScreen({ navigation }) {
         <Text>Регистрация</Text>
       </TouchableOpacity>
 
-      {isModalVisible && <ModalBox visible={isModalVisible} />}
+      {/* {isModalVisible && (
+        <ModalBox visible={isModalVisible} onClose={closeModal} />
+      )} */}
+      <ModalBox visible={isModalVisible} onClose={closeModal} />
     </View>
   );
 }

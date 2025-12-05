@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 
-export default function ModalBox({ visible }) {
+export default function ModalBox({ visible, onClose }) {
   const {
     handleSubmit,
     control,
@@ -20,6 +20,14 @@ export default function ModalBox({ visible }) {
 
   const onSubmit = (data) => {
     console.log(data);
+    const orderedData = [data.name, data.family, data.email, data.phone];
+    console.log(orderedData);
+    onClose();
+  };
+
+  const handleClose = () => {
+    console.log("Кнопка закрытия нажата"); // Отладка
+    onClose(); // Просто закрываем без сабмита
   };
 
   return (
@@ -41,7 +49,7 @@ export default function ModalBox({ visible }) {
                 keyboardType="default"
               />
             )}
-            name="Имя"
+            name="name"
             rules={{ required: true }}
           />
           <Controller
@@ -52,10 +60,10 @@ export default function ModalBox({ visible }) {
                 onBlur={onBlur}
                 onChangeText={(value) => onChange(value)}
                 value={value}
-                placeholder="Имя"
+                placeholder="family"
               />
             )}
-            name="Фамилия"
+            name="family"
             rules={{ required: true }}
           />
           <Controller
@@ -83,7 +91,7 @@ export default function ModalBox({ visible }) {
                 placeholder="Телефон"
               />
             )}
-            name="телефон"
+            name="phone"
             rules={{ required: true }}
           />
 
@@ -92,6 +100,13 @@ export default function ModalBox({ visible }) {
             onPress={handleSubmit(onSubmit)}
           >
             <Text style={styles.buttonText}>Сохранить</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: "gray" }]}
+            onPress={handleClose}
+          >
+            <Text style={styles.buttonText}>Отмена</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -136,4 +151,12 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 10,
   },
+  button: {
+    backgroundColor: "blue",
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    alignItems: "center",
+  },
+  buttonText: { color: "white" },
 });
