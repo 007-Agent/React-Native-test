@@ -5,14 +5,27 @@ import {
   TouchableOpacity,
   FlatList,
   StyleSheet,
+  Image,
 } from "react-native";
 import axios from "axios";
 function Search() {
   const [users, setUsers] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [products, setProducts] = useState([]);
+
+  const handleAllProducts = async () => {
+    try {
+      const response = await axios.get("http://10.16.1.66:3000/api/all_pgoto");
+      setProducts(response.data.data);
+      console.log(response.data.data, "fk3k3k3");
+    } catch (error) {
+      console.error("Ошибка при получении продуктов:", error);
+    }
+  };
+
   const handleAllUsers = async () => {
     try {
-      const response = await axios.get("http://10.16.1.250:3000/all-users");
+      const response = await axios.get("http://10.16.1.66:3000/all-users");
       console.log(response.data);
       if (response) {
         setUsers(response.data);
@@ -24,6 +37,35 @@ function Search() {
   users.map((elem) => {
     console.log(elem, "elem");
   });
+
+  // const renderProducts = ({ item }) => (
+  //   <View style={styles.item}>
+  //     {/* Фото в формате base64 */}
+  //     {item.photo ? (
+  //       <Image
+  //         source={{ uri: `data:image/jpeg;base64,${item.photo}` }}
+  //         style={styles.image}
+  //       />
+  //     ) : (
+  //       <View style={styles.placeholder}>
+  //         <Text>No Image</Text>
+  //       </View>
+  //     )}
+  //     <Text style={styles.name}>{item.name}</Text>
+  //     <Text>Артикул: {item.article}</Text>
+  //     <Text>Цена: {item.price} руб.</Text>
+  //   </View>
+  // );
+
+  const renderProducts = ({ item }) => (
+    <View style={styles.item}>
+      <Image source={{ uri: item.photo_url }} style={styles.image} />
+      <Text style={styles.name}>{item.name}</Text>
+      <Text>Артикул: {item.article}</Text>
+      <Text>Цена: ${item.price}</Text>
+    </View>
+  );
+
   const renderItem = ({ item, index }) => (
     <TouchableOpacity
       onPress={() => setSelectedIndex(index)}
@@ -37,28 +79,38 @@ function Search() {
   );
 
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        paddingTop: 100,
-      }}
-    >
-      <Text>Третья кнопка. Рассмотрим пример кода!!!</Text>
-      {/* Добавьте сюда свою информацию, например, текст, списки или другие компоненты */}
-      <TouchableOpacity onPress={handleAllUsers}>
-        <Text>Спиоск пользователей</Text>
-      </TouchableOpacity>
+    <View style={{ flex: 1, paddingTop: 100, paddingHorizontal: 20 }}>
+      {/* Верхняя часть: кнопки в ряд */}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-around",
+          marginBottom: 20,
+        }}
+      >
+        <TouchableOpacity onPress={handleAllUsers}>
+          <Text>Спиоск пользователей</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleAllProducts}>
+          <Text>Отображение продуктов</Text>
+        </TouchableOpacity>
+      </View>
 
+      {/* Ниже: список */}
       <FlatList
         data={users}
         renderItem={renderItem}
-        // style={styles.list}
-        style={{ flex: 1, height: 200 }}
+        style={{ flex: 1 }}
         keyExtractor={(item, index) => index.toString()}
         scrollEnabled={true}
       />
+      <FlatList
+        data={products}
+        renderItem={renderProducts}
+        keyExtractor={(item) => item.id.toString()}
+      />
+
+      {/* Можно добавить другие компоненты ниже при необходимости */}
     </View>
   );
 }
@@ -73,6 +125,11 @@ const styles = StyleSheet.create({
   },
   list: {
     paddingTop: 100,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    resizeMode: "cover",
   },
   item: {
     padding: [10, 20, 0, 10],

@@ -27,11 +27,11 @@ export default function ModalBox({ visible, onClose }) {
     console.log(obj);
     try {
       const response = await axios.post(
-        "http://10.16.1.250:3000/add-users",
+        "http://10.16.1.66:3000/add-users",
         orderedData
       );
       console.log(response.data);
-    alert("Пользователь добавлен успешно!");
+      alert("Пользователь добавлен успешно!");
     } catch (error) {
       console.error("Ошибка при отправке:", error);
 
